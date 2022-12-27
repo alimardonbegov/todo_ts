@@ -1,26 +1,32 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import ToDoItem from "./components/ToDoItem";
+import InputArea from "./components/InputArea";
+import Footer from "./components/Footer";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteItem } from "./redux/todoreducer";
+
+export default function App() {
+    const items = useSelector((state: any) => state.todos.listOfItems);
+    const dispatch = useDispatch();
+    return (
+        <>
+            <div className="container">
+                <div className="heading">
+                    <h1>To-Do List</h1>
+                </div>
+                <InputArea />
+                <ul>
+                    {items.map((todoItem: string, index: number) => (
+                        <ToDoItem
+                            key={index}
+                            text={todoItem}
+                            onClick={() => dispatch(deleteItem(index))}
+                        />
+                    ))}
+                </ul>
+            </div>
+            <Footer />
+        </>
+    );
 }
-
-export default App;
